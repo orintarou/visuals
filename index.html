@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>k-uma — Work Visuals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: #fdfcfb;
+      font-family: 'DM Mono', monospace;
+      overflow: hidden;
+    }
+
+    .page-title {
+      position: fixed;
+      top: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'DM Serif Display', serif;
+      font-size: 11px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: #c8c6c0;
+      white-space: nowrap;
+      z-index: 20;
+    }
+
+    .stage {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    svg.lines {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .search-center {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      z-index: 10;
+    }
+
+    .search-box {
+      width: 154px;
+      height: 34px;
+      border: 0.5px solid #d4d2cb;
+      background: #fdfcfb;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .search-box span {
+      font-size: 10px;
+      color: #c8c6c0;
+      letter-spacing: 0.1em;
+    }
+
+    .search-icon {
+      width: 11px;
+      height: 11px;
+      border: 1px solid #c8c6c0;
+      border-radius: 50%;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .search-icon::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; right: -4px;
+      width: 4px; height: 1px;
+      background: #c8c6c0;
+      transform: rotate(45deg);
+      transform-origin: left center;
+    }
+
+    .search-hint {
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #d4d2cb;
+    }
+
+    /* Project labels — positioned via JS relative to viewport */
+    .project-label {
+      position: absolute;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .project-label .pill {
+      padding: 5px 13px;
+      border: 0.5px solid #c8c6c0;
+      background: #fdfcfb;
+      border-radius: 2px;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      color: #6a6864;
+      font-family: 'DM Mono', monospace;
+      white-space: nowrap;
+      transition: background 0.18s, border-color 0.18s, color 0.18s;
+      position: relative;
+    }
+
+    .project-label.featured .pill {
+      border-color: #8a8884;
+      color: #3a3836;
+    }
+
+    .project-label:hover .pill {
+      background: #2a2825;
+      border-color: #2a2825;
+      color: #fdfcfb;
+    }
+
+    .featured-dot {
+      position: absolute;
+      top: -3px; right: -3px;
+      width: 5px; height: 5px;
+      background: #3a3836;
+      border-radius: 50%;
+    }
+
+    .project-label:hover .featured-dot {
+      background: #fdfcfb;
+      border: 1px solid #3a3836;
+    }
+
+    .connector-line {
+      stroke: #b0aea8;
+      stroke-width: 0.5;
+      opacity: 0;
+      transition: opacity 0.22s;
+      stroke-dasharray: 2.5 5;
+    }
+    .connector-line.visible { opacity: 1; }
+
+    .star {
+      fill: #8a8884;
+      opacity: 0;
+      transition: opacity 0.22s;
+    }
+    .star.visible { opacity: 1; }
+
+    .description-area {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 420px;
+      text-align: center;
+      pointer-events: none;
+      z-index: 20;
+    }
+
+    .description-text {
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: #9a9894;
+      line-height: 1.8;
+      opacity: 0;
+      transition: opacity 0.22s;
+    }
+    .description-text.visible { opacity: 1; }
+
+    .logo-bottom {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 56px;
+      opacity: 0.28;
+      mix-blend-mode: multiply;
+      z-index: 20;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-title">Work Visuals</div>
+
+  <div class="stage" id="stage">
+    <svg class="lines" id="svg-lines" xmlns="http://www.w3.org/2000/svg">
+      <line id="line-bridgehacs"  class="connector-line" />
+      <line id="line-godela"      class="connector-line" />
+      <line id="line-sounditure"  class="connector-line" />
+      <line id="line-freemarkets" class="connector-line" />
+      <line id="line-liquidtalent" class="connector-line" />
+      <circle id="star-bridgehacs"  class="star" r="2" />
+      <circle id="star-godela"      class="star" r="2" />
+      <circle id="star-sounditure"  class="star" r="2" />
+      <circle id="star-freemarkets" class="star" r="2" />
+      <circle id="star-liquidtalent" class="star" r="2" />
+    </svg>
+
+    <div class="search-center" id="search-center">
+      <div class="search-box">
+        <div class="search-icon"></div>
+        <span>explore work</span>
+      </div>
+      <div class="search-hint">hover a project</div>
+    </div>
+
+    <!-- Labels positioned by JS -->
+    <div class="project-label featured" id="label-godela">
+      <div class="pill">Godela<span class="featured-dot"></span></div>
+    </div>
+    <div class="project-label featured" id="label-bridgehacs">
+      <div class="pill">Bridgehacs<span class="featured-dot"></span></div>
+    </div>
+    <div class="project-label" id="label-sounditure">
+      <div class="pill">Sounditure</div>
+    </div>
+    <div class="project-label" id="label-liquidtalent">
+      <div class="pill">LiquidTalent</div>
+    </div>
+    <div class="project-label featured" id="label-freemarkets">
+      <div class="pill">Freemarkets<span class="featured-dot"></span></div>
+    </div>
+  </div>
+
+  <div class="description-area">
+    <div class="description-text" id="desc-text"></div>
+  </div>
+
+  <img class="logo-bottom" src="k_uma_logo_white-background.png" alt="k-uma" />
+
+  <script>
+    const projects = {
+      godela:       { desc: "Brand identity and interface design for a modern digital-first product experience." },
+      bridgehacs:   { desc: "UI/UX design for a platform bridging creative professionals with niche opportunities." },
+      sounditure:   { desc: "Visual design and interaction concepts for an audio discovery and curation platform." },
+      liquidtalent: { desc: "Flexible workforce platform UI — connecting companies with on-demand talent pools." },
+      freemarkets:  { desc: "End-to-end product design for a peer-to-peer marketplace enabling direct trade." }
+    };
+
+    function placeLabels() {
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const cx = vw / 2;
+      const cy = vh / 2;
+
+      // Grid: col offsets from center, row offsets from center
+      const colL = -vw * 0.28;
+      const colR =  vw * 0.28;
+      const rowT = -vh * 0.28;
+      const rowM =  0;
+      const rowB =  vh * 0.28;
+
+      const positions = {
+        godela:       { x: cx,        y: cy + rowT },
+        bridgehacs:   { x: cx + colL, y: cy + rowM },
+        sounditure:   { x: cx + colR, y: cy + rowM },
+        liquidtalent: { x: cx + colL, y: cy + rowB },
+        freemarkets:  { x: cx + colR, y: cy + rowB }
+      };
+
+      Object.entries(positions).forEach(([key, pos]) => {
+        const el = document.getElementById('label-' + key);
+        el.style.left = pos.x + 'px';
+        el.style.top  = pos.y + 'px';
+      });
+
+      return positions;
+    }
+
+    function getElCenter(el) {
+      const r = el.getBoundingClientRect();
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+    }
+
+    function initLines(positions) {
+      const sc = document.getElementById('search-center');
+      const center = getElCenter(sc);
+
+      Object.keys(projects).forEach(key => {
+        const pos = positions[key];
+        const line = document.getElementById('line-' + key);
+        line.setAttribute('x1', center.x); line.setAttribute('y1', center.y);
+        line.setAttribute('x2', pos.x);    line.setAttribute('y2', pos.y);
+
+        const star = document.getElementById('star-' + key);
+        star.setAttribute('cx', (center.x + pos.x) / 2);
+        star.setAttribute('cy', (center.y + pos.y) / 2);
+      });
+    }
+
+    function activate(key) {
+      Object.keys(projects).forEach(k => {
+        document.getElementById('line-' + k).classList.toggle('visible', k === key);
+        document.getElementById('star-' + k).classList.toggle('visible', k === key);
+      });
+      const desc = document.getElementById('desc-text');
+      if (key) {
+        desc.textContent = projects[key].desc;
+        desc.classList.add('visible');
+      } else {
+        desc.classList.remove('visible');
+      }
+    }
+
+    let positions = placeLabels();
+    setTimeout(() => initLines(positions), 50);
+
+    Object.keys(projects).forEach(key => {
+      const label = document.getElementById('label-' + key);
+      label.addEventListener('mouseenter', () => activate(key));
+      label.addEventListener('mouseleave', () => activate(null));
+    });
+
+    window.addEventListener('resize', () => {
+      positions = placeLabels();
+      initLines(positions);
+    });
+  </script>
+</body>
+</html>
