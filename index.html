@@ -704,37 +704,31 @@
     let positions = placeLabels();
     setTimeout(() => initLines(positions), 50);
 
-    let usingTouch = false;
-    window.addEventListener('touchstart', () => { usingTouch = true; }, { passive: true });
-
     Object.keys(projects).forEach(key => {
       const label = document.getElementById('label-' + key);
 
       // Desktop hover
       label.addEventListener('mouseenter', () => {
-        if (!usingTouch && !searchInput.value) activate(key);
+        if (!searchInput.value) activate(key);
       });
       label.addEventListener('mouseleave', () => {
-        if (!usingTouch && !searchInput.value) activate(null);
+        if (!searchInput.value) activate(null);
       });
 
-      // Touch: set flag immediately on touchstart, handle logic on touchend
-      label.addEventListener('touchstart', () => { usingTouch = true; }, { passive: true });
-
-      label.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        if (activeKey === key) {
+      // Single unified pointer handler — type tells us mouse vs touch, no guessing
+      label.addEventListener('pointerup', (e) => {
+        if (e.pointerType === 'mouse') {
+          // Desktop: single click navigates
           showView('view-' + key);
         } else {
-          activate(key);
+          // Touch: first tap activates, second tap opens
+          e.preventDefault();
+          if (activeKey === key) {
+            showView('view-' + key);
+          } else {
+            activate(key);
+          }
         }
-      }, { passive: false });
-
-      // Desktop click only — usingTouch is always true by now on any touch device
-      label.addEventListener('click', () => {
-        if (usingTouch) return;
-        showView('view-' + key);
       });
     });
 
