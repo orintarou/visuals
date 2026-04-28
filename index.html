@@ -718,7 +718,7 @@
         e.preventDefault();
         // Mark this as a touch so the ghost click that follows is ignored
         lastTouchKey = key;
-        setTimeout(() => { lastTouchKey = null; }, 600);
+        setTimeout(() => { lastTouchKey = null; }, 1500);
         if (activeKey === key) {
           showView('view-' + key);
         } else {
