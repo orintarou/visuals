@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
   <title>k-uma — Work Visuals</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,7 +20,7 @@
 
     .page-title {
       position: fixed;
-      top: 28px;
+      top: 24px;
       left: 50%;
       transform: translateX(-50%);
       font-family: 'DM Serif Display', serif;
@@ -55,13 +55,13 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 18px;
+      gap: 14px;
       z-index: 10;
     }
 
     .search-box {
-      width: 154px;
-      height: 34px;
+      width: 148px;
+      height: 32px;
       border: 0.5px solid #d4d2cb;
       background: #fdfcfb;
       border-radius: 2px;
@@ -102,12 +102,12 @@
       color: #d4d2cb;
     }
 
-    /* Project labels — positioned via JS relative to viewport */
     .project-label {
       position: absolute;
       transform: translate(-50%, -50%);
       cursor: pointer;
       z-index: 10;
+      -webkit-tap-highlight-color: transparent;
     }
 
     .project-label .pill {
@@ -129,6 +129,7 @@
       color: #3a3836;
     }
 
+    .project-label.active .pill,
     .project-label:hover .pill {
       background: #2a2825;
       border-color: #2a2825;
@@ -143,6 +144,7 @@
       border-radius: 50%;
     }
 
+    .project-label.active .featured-dot,
     .project-label:hover .featured-dot {
       background: #fdfcfb;
       border: 1px solid #3a3836;
@@ -166,10 +168,11 @@
 
     .description-area {
       position: fixed;
-      bottom: 80px;
+      bottom: 72px;
       left: 50%;
       transform: translateX(-50%);
-      width: 420px;
+      width: 88vw;
+      max-width: 420px;
       text-align: center;
       pointer-events: none;
       z-index: 20;
@@ -187,13 +190,25 @@
 
     .logo-bottom {
       position: fixed;
-      bottom: 28px;
+      bottom: 22px;
       left: 50%;
       transform: translateX(-50%);
-      width: 56px;
+      width: 52px;
       opacity: 0.28;
       mix-blend-mode: multiply;
       z-index: 20;
+    }
+
+    @media (max-width: 480px) {
+      .project-label .pill {
+        font-size: 9px;
+        padding: 4px 10px;
+        letter-spacing: 0.08em;
+      }
+      .search-box { width: 130px; height: 30px; }
+      .search-box span { font-size: 9px; }
+      .description-text { font-size: 9px; }
+      .logo-bottom { width: 42px; }
     }
   </style>
 </head>
@@ -203,15 +218,15 @@
 
   <div class="stage" id="stage">
     <svg class="lines" id="svg-lines" xmlns="http://www.w3.org/2000/svg">
-      <line id="line-bridgehacs"  class="connector-line" />
-      <line id="line-godela"      class="connector-line" />
-      <line id="line-sounditure"  class="connector-line" />
-      <line id="line-freemarkets" class="connector-line" />
+      <line id="line-bridgehacs"   class="connector-line" />
+      <line id="line-godela"       class="connector-line" />
+      <line id="line-sounditure"   class="connector-line" />
+      <line id="line-freemarkets"  class="connector-line" />
       <line id="line-liquidtalent" class="connector-line" />
-      <circle id="star-bridgehacs"  class="star" r="2" />
-      <circle id="star-godela"      class="star" r="2" />
-      <circle id="star-sounditure"  class="star" r="2" />
-      <circle id="star-freemarkets" class="star" r="2" />
+      <circle id="star-bridgehacs"   class="star" r="2" />
+      <circle id="star-godela"       class="star" r="2" />
+      <circle id="star-sounditure"   class="star" r="2" />
+      <circle id="star-freemarkets"  class="star" r="2" />
       <circle id="star-liquidtalent" class="star" r="2" />
     </svg>
 
@@ -220,10 +235,9 @@
         <div class="search-icon"></div>
         <span>explore work</span>
       </div>
-      <div class="search-hint">hover a project</div>
+      <div class="search-hint">tap a project</div>
     </div>
 
-    <!-- Labels positioned by JS -->
     <div class="project-label featured" id="label-godela">
       <div class="pill">Godela<span class="featured-dot"></span></div>
     </div>
@@ -256,23 +270,26 @@
       freemarkets:  { desc: "End-to-end product design for a peer-to-peer marketplace enabling direct trade." }
     };
 
+    const isMobile = () => window.innerWidth <= 480;
+
     function placeLabels() {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
       const cx = vw / 2;
       const cy = vh / 2;
 
-      // Grid: col offsets from center, row offsets from center
-      const colL = -vw * 0.28;
-      const colR =  vw * 0.28;
-      const rowT = -vh * 0.28;
-      const rowM =  0;
-      const rowB =  vh * 0.28;
+      const colSpread = isMobile() ? 0.34 : 0.28;
+      const rowSpread = isMobile() ? 0.18 : 0.14;
+
+      const colL = -vw * colSpread;
+      const colR =  vw * colSpread;
+      const rowT = -vh * rowSpread;
+      const rowB =  vh * rowSpread;
 
       const positions = {
         godela:       { x: cx,        y: cy + rowT },
-        bridgehacs:   { x: cx + colL, y: cy + rowM },
-        sounditure:   { x: cx + colR, y: cy + rowM },
+        bridgehacs:   { x: cx + colL, y: cy },
+        sounditure:   { x: cx + colR, y: cy },
         liquidtalent: { x: cx + colL, y: cy + rowB },
         freemarkets:  { x: cx + colR, y: cy + rowB }
       };
@@ -294,26 +311,31 @@
     function initLines(positions) {
       const sc = document.getElementById('search-center');
       const center = getElCenter(sc);
-
       Object.keys(projects).forEach(key => {
         const pos = positions[key];
         const line = document.getElementById('line-' + key);
         line.setAttribute('x1', center.x); line.setAttribute('y1', center.y);
         line.setAttribute('x2', pos.x);    line.setAttribute('y2', pos.y);
-
         const star = document.getElementById('star-' + key);
         star.setAttribute('cx', (center.x + pos.x) / 2);
         star.setAttribute('cy', (center.y + pos.y) / 2);
       });
     }
 
+    let activeKey = null;
+
     function activate(key) {
-      Object.keys(projects).forEach(k => {
-        document.getElementById('line-' + k).classList.toggle('visible', k === key);
-        document.getElementById('star-' + k).classList.toggle('visible', k === key);
-      });
+      if (activeKey) {
+        document.getElementById('label-' + activeKey).classList.remove('active');
+        document.getElementById('line-' + activeKey).classList.remove('visible');
+        document.getElementById('star-' + activeKey).classList.remove('visible');
+      }
+      activeKey = key;
       const desc = document.getElementById('desc-text');
       if (key) {
+        document.getElementById('label-' + key).classList.add('active');
+        document.getElementById('line-' + key).classList.add('visible');
+        document.getElementById('star-' + key).classList.add('visible');
         desc.textContent = projects[key].desc;
         desc.classList.add('visible');
       } else {
@@ -328,6 +350,14 @@
       const label = document.getElementById('label-' + key);
       label.addEventListener('mouseenter', () => activate(key));
       label.addEventListener('mouseleave', () => activate(null));
+      label.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        activate(activeKey === key ? null : key);
+      });
+    });
+
+    document.getElementById('stage').addEventListener('touchend', (e) => {
+      if (e.target === document.getElementById('stage')) activate(null);
     });
 
     window.addEventListener('resize', () => {
