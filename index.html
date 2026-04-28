@@ -18,8 +18,24 @@
       overflow: hidden;
     }
 
-    .page-title {
+    /* ── VIEWS ── */
+    .view {
       position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background: #fdfcfb;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .view.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(14px);
+    }
+
+    /* ── LANDING ── */
+    .page-title {
+      position: absolute;
       top: 24px;
       left: 50%;
       transform: translateX(-50%);
@@ -34,8 +50,8 @@
 
     .stage {
       position: relative;
-      width: 100vw;
-      height: 100vh;
+      width: 100%;
+      height: 100%;
     }
 
     svg.lines {
@@ -167,7 +183,7 @@
     .star.visible { opacity: 1; }
 
     .description-area {
-      position: fixed;
+      position: absolute;
       bottom: 72px;
       left: 50%;
       transform: translateX(-50%);
@@ -189,7 +205,7 @@
     .description-text.visible { opacity: 1; }
 
     .logo-bottom {
-      position: fixed;
+      position: absolute;
       bottom: 22px;
       left: 50%;
       transform: translateX(-50%);
@@ -199,67 +215,280 @@
       z-index: 20;
     }
 
-    @media (max-width: 480px) {
-      .project-label .pill {
-        font-size: 9px;
-        padding: 4px 10px;
-        letter-spacing: 0.08em;
-      }
+    /* ── PROJECT PAGES ── */
+    .project-page {
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 64px 32px 80px;
+    }
+
+    .project-page-inner {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 44px;
+    }
+
+    .project-name-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #9a9894;
+    }
+
+    /* two-column layout */
+    .media-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 28px;
+      width: 100%;
+    }
+
+    .media-col {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .media-col.mobile-col {
+      flex: 0 0 auto;
+      width: 220px;
+    }
+
+    .media-caption {
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #c8c6c0;
+    }
+
+    /* video */
+    .media-col video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 0.5px solid #e0deda;
+      border-radius: 3px;
+      background: #111;
+    }
+
+    /* images */
+    .media-col img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 0.5px solid #e0deda;
+      border-radius: 3px;
+      background: #f0eeea;
+    }
+
+    .media-col.mobile-col img {
+      width: 100%;
+      max-width: 220px;
+    }
+
+    /* full-width video (Sounditure) */
+    .media-full video {
+      width: 100%;
+      max-width: 860px;
+      height: auto;
+      display: block;
+      border: 0.5px solid #e0deda;
+      border-radius: 3px;
+      background: #111;
+    }
+
+    /* single centered doc (LiquidTalent) */
+    .media-single {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      max-width: 560px;
+    }
+
+    .media-single img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 0.5px solid #e0deda;
+      border-radius: 3px;
+      background: #fff;
+    }
+
+    /* back button */
+    .back-btn {
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      color: #6a6864;
+      border: 0.5px solid #c8c6c0;
+      background: #fdfcfb;
+      border-radius: 2px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s, border-color 0.18s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .back-btn:hover {
+      background: #2a2825;
+      border-color: #2a2825;
+      color: #fdfcfb;
+    }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      .media-row { flex-direction: column; align-items: center; gap: 20px; }
+      .media-col { width: 100% !important; flex: unset !important; }
+      .media-col.mobile-col { width: 100% !important; max-width: 260px; }
+      .project-label .pill { font-size: 9px; padding: 4px 10px; letter-spacing: 0.08em; }
       .search-box { width: 130px; height: 30px; }
       .search-box span { font-size: 9px; }
       .description-text { font-size: 9px; }
       .logo-bottom { width: 42px; }
+      .project-page { padding: 52px 18px 72px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="page-title">Work Visuals</div>
+  <!-- ── LANDING ── -->
+  <div class="view" id="view-landing">
+    <div class="page-title">Work Visuals</div>
+    <div class="stage" id="stage">
+      <svg class="lines" id="svg-lines" xmlns="http://www.w3.org/2000/svg">
+        <line id="line-bridgehacs"   class="connector-line" />
+        <line id="line-godela"       class="connector-line" />
+        <line id="line-sounditure"   class="connector-line" />
+        <line id="line-freemarkets"  class="connector-line" />
+        <line id="line-liquidtalent" class="connector-line" />
+        <circle id="star-bridgehacs"   class="star" r="2" />
+        <circle id="star-godela"       class="star" r="2" />
+        <circle id="star-sounditure"   class="star" r="2" />
+        <circle id="star-freemarkets"  class="star" r="2" />
+        <circle id="star-liquidtalent" class="star" r="2" />
+      </svg>
 
-  <div class="stage" id="stage">
-    <svg class="lines" id="svg-lines" xmlns="http://www.w3.org/2000/svg">
-      <line id="line-bridgehacs"   class="connector-line" />
-      <line id="line-godela"       class="connector-line" />
-      <line id="line-sounditure"   class="connector-line" />
-      <line id="line-freemarkets"  class="connector-line" />
-      <line id="line-liquidtalent" class="connector-line" />
-      <circle id="star-bridgehacs"   class="star" r="2" />
-      <circle id="star-godela"       class="star" r="2" />
-      <circle id="star-sounditure"   class="star" r="2" />
-      <circle id="star-freemarkets"  class="star" r="2" />
-      <circle id="star-liquidtalent" class="star" r="2" />
-    </svg>
-
-    <div class="search-center" id="search-center">
-      <div class="search-box">
-        <div class="search-icon"></div>
-        <span>explore work</span>
+      <div class="search-center" id="search-center">
+        <div class="search-box">
+          <div class="search-icon"></div>
+          <span>explore work</span>
+        </div>
+        <div class="search-hint">tap a project</div>
       </div>
-      <div class="search-hint">tap a project</div>
-    </div>
 
-    <div class="project-label featured" id="label-godela">
-      <div class="pill">Godela<span class="featured-dot"></span></div>
+      <div class="project-label featured" id="label-godela">
+        <div class="pill">Godela<span class="featured-dot"></span></div>
+      </div>
+      <div class="project-label featured" id="label-bridgehacs">
+        <div class="pill">Bridgehacs<span class="featured-dot"></span></div>
+      </div>
+      <div class="project-label" id="label-sounditure">
+        <div class="pill">Sounditure</div>
+      </div>
+      <div class="project-label" id="label-liquidtalent">
+        <div class="pill">LiquidTalent</div>
+      </div>
+      <div class="project-label featured" id="label-freemarkets">
+        <div class="pill">Freemarkets<span class="featured-dot"></span></div>
+      </div>
     </div>
-    <div class="project-label featured" id="label-bridgehacs">
-      <div class="pill">Bridgehacs<span class="featured-dot"></span></div>
+    <div class="description-area">
+      <div class="description-text" id="desc-text"></div>
     </div>
-    <div class="project-label" id="label-sounditure">
-      <div class="pill">Sounditure</div>
-    </div>
-    <div class="project-label" id="label-liquidtalent">
-      <div class="pill">LiquidTalent</div>
-    </div>
-    <div class="project-label featured" id="label-freemarkets">
-      <div class="pill">Freemarkets<span class="featured-dot"></span></div>
+    <img class="logo-bottom" src="k_uma_logo_white-background.png" alt="k-uma" />
+  </div>
+
+  <!-- ── BRIDGEHACS ── -->
+  <div class="view hidden project-page" id="view-bridgehacs">
+    <div class="project-page-inner">
+      <div class="media-row">
+        <div class="media-col">
+          <video autoplay muted loop playsinline>
+            <source src="bridgehacs_desktop.mov" type="video/mp4" />
+          </video>
+          <span class="media-caption">Desktop</span>
+        </div>
+        <div class="media-col mobile-col">
+          <img src="Work_Visuals__Bridgehacs_Mobile_.jpeg" alt="Bridgehacs mobile" />
+          <span class="media-caption">Mobile</span>
+        </div>
+      </div>
+      <div class="project-name-label">Bridgehacs</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
     </div>
   </div>
 
-  <div class="description-area">
-    <div class="description-text" id="desc-text"></div>
+  <!-- ── GODELA ── -->
+  <div class="view hidden project-page" id="view-godela">
+    <div class="project-page-inner">
+      <div class="media-row">
+        <div class="media-col">
+          <img src="Work_Visuals__Godela_Desktop_.png" alt="Godela desktop" />
+          <span class="media-caption">Desktop</span>
+        </div>
+        <div class="media-col mobile-col">
+          <img src="Work_Visuals__Godela_Mobile_.PNG" alt="Godela mobile" />
+          <span class="media-caption">Mobile</span>
+        </div>
+      </div>
+      <div class="project-name-label">Godela</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
   </div>
 
-  <img class="logo-bottom" src="k_uma_logo_white-background.png" alt="k-uma" />
+  <!-- ── SOUNDITURE ── -->
+  <div class="view hidden project-page" id="view-sounditure">
+    <div class="project-page-inner">
+      <div class="media-full">
+        <video autoplay muted loop playsinline>
+          <source src="Work_Visuals__Sounditure_video_.mov" type="video/mp4" />
+        </video>
+      </div>
+      <div class="project-name-label">Sounditure</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ── FREEMARKETS ── -->
+  <div class="view hidden project-page" id="view-freemarkets">
+    <div class="project-page-inner">
+      <div class="media-row">
+        <div class="media-col">
+          <img src="freemarkets_letter.png" alt="Freemarkets reference letter" />
+          <span class="media-caption">Reference</span>
+        </div>
+        <div class="media-col mobile-col">
+          <img src="Work_Visuals__Freemarkets_Phone_.png" alt="Freemarkets mobile" />
+          <span class="media-caption">Mobile</span>
+        </div>
+      </div>
+      <div class="project-name-label">Freemarkets</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ── LIQUIDTALENT ── -->
+  <div class="view hidden project-page" id="view-liquidtalent">
+    <div class="project-page-inner">
+      <div class="media-single">
+        <img src="liquidtalent_letter.png" alt="LiquidTalent reference letter" />
+        <span class="media-caption">Reference — Alex Abelin, CEO</span>
+      </div>
+      <div class="project-name-label">LiquidTalent</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
 
   <script>
     const projects = {
@@ -270,7 +499,15 @@
       freemarkets:  { desc: "End-to-end product design for a peer-to-peer marketplace enabling direct trade." }
     };
 
-    const isMobile = () => window.innerWidth <= 480;
+    const isMobile = () => window.innerWidth <= 600;
+
+    function showView(id) {
+      document.querySelectorAll('.view').forEach(v => {
+        v.classList.toggle('hidden', v.id !== id);
+      });
+      const el = document.getElementById(id);
+      if (el) el.scrollTop = 0;
+    }
 
     function placeLabels() {
       const vw = window.innerWidth;
@@ -283,7 +520,7 @@
 
       const colL = -vw * colSpread;
       const colR =  vw * colSpread;
-      const rowT = -vh * (rowSpread * 1.2);
+      const rowT = -vh * (rowSpread * 1.5);
       const rowB =  vh * rowSpread;
 
       const positions = {
@@ -352,8 +589,13 @@
       label.addEventListener('mouseleave', () => activate(null));
       label.addEventListener('touchend', (e) => {
         e.preventDefault();
-        activate(activeKey === key ? null : key);
+        if (activeKey === key) {
+          showView('view-' + key);
+        } else {
+          activate(key);
+        }
       });
+      label.addEventListener('click', () => showView('view-' + key));
     });
 
     document.getElementById('stage').addEventListener('touchend', (e) => {
