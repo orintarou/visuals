@@ -18,7 +18,6 @@
       overflow: hidden;
     }
 
-    /* ── VIEWS ── */
     .view {
       position: fixed;
       inset: 0;
@@ -33,7 +32,6 @@
       transform: translateY(14px);
     }
 
-    /* ── LANDING ── */
     .page-title {
       position: absolute;
       top: 24px;
@@ -75,6 +73,7 @@
       z-index: 10;
     }
 
+    /* Search box becomes a real input on focus */
     .search-box {
       width: 148px;
       height: 32px;
@@ -85,12 +84,47 @@
       align-items: center;
       justify-content: center;
       gap: 7px;
+      cursor: text;
+      transition: border-color 0.18s, width 0.22s ease;
+    }
+    .search-box.focused {
+      border-color: #8a8884;
+      width: 168px;
     }
 
     .search-box span {
       font-size: 10px;
       color: #c8c6c0;
       letter-spacing: 0.1em;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+    .search-box.has-value span,
+    .search-box.focused span {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
+    }
+
+    .search-input {
+      position: absolute;
+      width: 110px;
+      font-family: 'DM Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      color: #3a3836;
+      background: transparent;
+      border: none;
+      outline: none;
+      text-align: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.15s;
+    }
+    .search-box.focused .search-input,
+    .search-box.has-value .search-input {
+      opacity: 1;
+      pointer-events: auto;
     }
 
     .search-icon {
@@ -100,6 +134,10 @@
       border-radius: 50%;
       position: relative;
       flex-shrink: 0;
+      transition: border-color 0.18s;
+    }
+    .search-box.focused .search-icon {
+      border-color: #8a8884;
     }
     .search-icon::after {
       content: '';
@@ -110,20 +148,27 @@
       transform: rotate(45deg);
       transform-origin: left center;
     }
+    .search-box.focused .search-icon::after {
+      background: #8a8884;
+    }
 
     .search-hint {
       font-size: 9px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       color: #d4d2cb;
+      transition: opacity 0.18s;
     }
+    .search-hint.hide { opacity: 0; }
 
+    /* Project labels */
     .project-label {
       position: absolute;
       transform: translate(-50%, -50%);
       cursor: pointer;
       z-index: 10;
       -webkit-tap-highlight-color: transparent;
+      transition: transform 0.2s ease;
     }
 
     .project-label .pill {
@@ -136,7 +181,8 @@
       color: #6a6864;
       font-family: 'DM Mono', monospace;
       white-space: nowrap;
-      transition: background 0.18s, border-color 0.18s, color 0.18s;
+      transition: background 0.18s, border-color 0.18s, color 0.18s,
+                  padding 0.2s ease, font-size 0.2s ease, letter-spacing 0.2s ease;
       position: relative;
     }
 
@@ -152,12 +198,33 @@
       color: #fdfcfb;
     }
 
+    /* Search match: label expands slightly */
+    .project-label.search-match .pill {
+      padding: 7px 17px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      border-color: #3a3836;
+      color: #3a3836;
+    }
+    .project-label.search-match.featured .pill {
+      border-color: #2a2825;
+    }
+
+    /* Dim non-matching labels during search */
+    .project-label.search-dim .pill {
+      opacity: 0.28;
+    }
+    .project-label.search-dim .featured-dot {
+      opacity: 0.28;
+    }
+
     .featured-dot {
       position: absolute;
       top: -3px; right: -3px;
       width: 5px; height: 5px;
       background: #3a3836;
       border-radius: 50%;
+      transition: opacity 0.18s;
     }
 
     .project-label.active .featured-dot,
@@ -216,11 +283,6 @@
     }
 
     /* ── PROJECT PAGES ── */
-    /*
-      All project pages are no-scroll: content is centered vertically
-      within the fixed viewport using flex. Heights are controlled by
-      --media-h so desktop + mobile always match exactly.
-    */
     .project-page {
       display: flex;
       flex-direction: column;
@@ -246,16 +308,10 @@
       color: #9a9894;
     }
 
-    /*
-      media-row: both columns share the same explicit height via --media-h.
-      Children (img / video) fill that height; width is auto so aspect ratio
-      is preserved. The row itself is vertically aligned to the top of the
-      shared height box.
-    */
     .media-row {
       --media-h: 58vh;
       display: flex;
-      align-items: flex-end; /* captions align at bottom */
+      align-items: flex-end;
       justify-content: center;
       gap: 28px;
       width: 100%;
@@ -268,7 +324,6 @@
       gap: 8px;
     }
 
-    /* The actual media element fills the shared height */
     .media-col video,
     .media-col img {
       height: var(--media-h, 58vh);
@@ -281,21 +336,13 @@
       background: #f0eeea;
     }
 
-    /* Freemarkets phone: no border, transparent bg, larger */
-    .media-col img.phone-transparent {
-      border: none;
-      background: transparent;
-    }
-
     .media-caption {
       font-size: 9px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: #c8c6c0;
-      flex-shrink: 0;
     }
 
-    /* LiquidTalent: single centered doc, fits in viewport */
     .media-single {
       display: flex;
       flex-direction: column;
@@ -313,7 +360,6 @@
       object-fit: contain;
     }
 
-    /* back button */
     .back-btn {
       font-family: 'DM Mono', monospace;
       font-size: 10px;
@@ -334,19 +380,11 @@
       color: #fdfcfb;
     }
 
-    /* ── MOBILE ── */
     @media (max-width: 600px) {
       .project-page { padding: 0 16px; }
       .project-page-inner { gap: 20px; }
-
-      .media-row {
-        --media-h: 36vh;
-        flex-direction: row; /* keep side by side on mobile too */
-        gap: 12px;
-      }
-
+      .media-row { --media-h: 36vh; flex-direction: row; gap: 12px; }
       .media-single img { height: 68vh; }
-
       .project-label .pill { font-size: 9px; padding: 4px 10px; letter-spacing: 0.08em; }
       .search-box { width: 130px; height: 30px; }
       .search-box span { font-size: 9px; }
@@ -373,11 +411,12 @@
       </svg>
 
       <div class="search-center" id="search-center">
-        <div class="search-box">
+        <div class="search-box" id="search-box" onclick="focusSearch()">
           <div class="search-icon"></div>
           <span>explore work</span>
+          <input class="search-input" id="search-input" type="text" autocomplete="off" spellcheck="false" />
         </div>
-        <div class="search-hint">tap a project</div>
+        <div class="search-hint" id="search-hint">tap a project</div>
       </div>
 
       <div class="project-label featured" id="label-godela">
@@ -430,7 +469,9 @@
           <span class="media-caption">Desktop</span>
         </div>
         <div class="media-col">
-          <img src="Work_Visuals__Godela_Mobile_.PNG" alt="Godela mobile" />
+          <video autoplay muted loop playsinline>
+            <source src="godela_mobile_video.mov" type="video/mp4" />
+          </video>
           <span class="media-caption">Mobile</span>
         </div>
       </div>
@@ -498,10 +539,8 @@
       const vh = window.innerHeight;
       const cx = vw / 2;
       const cy = vh / 2;
-
       const colSpread = isMobile() ? 0.27 : 0.224;
       const rowSpread = isMobile() ? 0.18 : 0.14;
-
       const colL = -vw * colSpread;
       const colR =  vw * colSpread;
       const rowT = -vh * (rowSpread * 1.5);
@@ -563,13 +602,97 @@
       }
     }
 
+    // ── SEARCH ──
+    const searchBox   = document.getElementById('search-box');
+    const searchInput = document.getElementById('search-input');
+    const searchHint  = document.getElementById('search-hint');
+
+    function focusSearch() {
+      searchInput.focus();
+    }
+
+    searchInput.addEventListener('focus', () => {
+      searchBox.classList.add('focused');
+      searchHint.classList.add('hide');
+    });
+
+    searchInput.addEventListener('blur', () => {
+      searchBox.classList.remove('focused');
+      if (!searchInput.value) {
+        searchBox.classList.remove('has-value');
+        searchHint.classList.remove('hide');
+        clearSearch();
+      }
+    });
+
+    searchInput.addEventListener('input', () => {
+      const val = searchInput.value.trim().toLowerCase();
+      if (val) {
+        searchBox.classList.add('has-value');
+      } else {
+        searchBox.classList.remove('has-value');
+      }
+      applySearch(val);
+    });
+
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        searchInput.value = '';
+        searchInput.blur();
+        clearSearch();
+      }
+      // Enter on a single match: navigate straight in
+      if (e.key === 'Enter') {
+        const matches = Object.keys(projects).filter(k =>
+          k.toLowerCase().startsWith(searchInput.value.trim().toLowerCase()) && searchInput.value.trim()
+        );
+        if (matches.length === 1) showView('view-' + matches[0]);
+      }
+    });
+
+    function applySearch(val) {
+      if (!val) { clearSearch(); return; }
+      Object.keys(projects).forEach(key => {
+        const label = document.getElementById('label-' + key);
+        const matches = key.toLowerCase().startsWith(val);
+        label.classList.toggle('search-match', matches);
+        label.classList.toggle('search-dim', !matches);
+        // Also show connector line for matching label
+        document.getElementById('line-' + key).classList.toggle('visible', matches);
+        document.getElementById('star-' + key).classList.toggle('visible', matches);
+      });
+      // Show desc for sole match
+      const matchKeys = Object.keys(projects).filter(k => k.toLowerCase().startsWith(val));
+      const desc = document.getElementById('desc-text');
+      if (matchKeys.length === 1) {
+        desc.textContent = projects[matchKeys[0]].desc;
+        desc.classList.add('visible');
+      } else {
+        desc.classList.remove('visible');
+      }
+    }
+
+    function clearSearch() {
+      Object.keys(projects).forEach(key => {
+        const label = document.getElementById('label-' + key);
+        label.classList.remove('search-match', 'search-dim');
+        document.getElementById('line-' + key).classList.remove('visible');
+        document.getElementById('star-' + key).classList.remove('visible');
+      });
+      document.getElementById('desc-text').classList.remove('visible');
+    }
+
     let positions = placeLabels();
     setTimeout(() => initLines(positions), 50);
 
     Object.keys(projects).forEach(key => {
       const label = document.getElementById('label-' + key);
-      label.addEventListener('mouseenter', () => activate(key));
-      label.addEventListener('mouseleave', () => activate(null));
+      label.addEventListener('mouseenter', () => {
+        if (!searchInput.value) activate(key);
+      });
+      label.addEventListener('mouseleave', () => {
+        if (!searchInput.value) activate(null);
+      });
       label.addEventListener('touchend', (e) => {
         e.preventDefault();
         if (activeKey === key) {
