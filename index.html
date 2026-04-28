@@ -716,19 +716,18 @@
       });
       label.addEventListener('touchend', (e) => {
         e.preventDefault();
+        // Mark this as a touch so the ghost click that follows is ignored
         lastTouchKey = key;
+        setTimeout(() => { lastTouchKey = null; }, 600);
         if (activeKey === key) {
           showView('view-' + key);
         } else {
           activate(key);
         }
       });
-      // Only allow click navigation on non-touch devices
+      // Desktop click only — suppressed on touch via lastTouchKey
       label.addEventListener('click', (e) => {
-        if (lastTouchKey === key) {
-          lastTouchKey = null;
-          return; // was a touch — already handled above
-        }
+        if (lastTouchKey === key) return;
         showView('view-' + key);
       });
     });
