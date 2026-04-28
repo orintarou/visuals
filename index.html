@@ -136,8 +136,11 @@
       flex-shrink: 0;
       transition: border-color 0.18s;
     }
-    .search-box.focused .search-icon {
-      border-color: #8a8884;
+    .search-box.focused .search-icon,
+    .search-box.has-value .search-icon {
+      opacity: 0;
+      width: 0;
+      overflow: hidden;
     }
     .search-icon::after {
       content: '';
@@ -469,9 +472,7 @@
           <span class="media-caption">Desktop</span>
         </div>
         <div class="media-col">
-          <video autoplay muted loop playsinline>
-            <source src="godela_mobile_video.mov" type="video/mp4" />
-          </video>
+          <img src="godela_mobile.PNG" alt="Godela mobile" />
           <span class="media-caption">Mobile</span>
         </div>
       </div>
