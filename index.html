@@ -23,7 +23,7 @@
       top: 24px;
       left: 50%;
       transform: translateX(-50%);
-      font-family: 'DM Serif Display', serif;
+      font-family: 'DM Mono', monospace;
       font-size: 11px;
       letter-spacing: 0.28em;
       text-transform: uppercase;
@@ -278,12 +278,12 @@
       const cx = vw / 2;
       const cy = vh / 2;
 
-      const colSpread = isMobile() ? 0.34 : 0.28;
+      const colSpread = isMobile() ? 0.27 : 0.224;
       const rowSpread = isMobile() ? 0.18 : 0.14;
 
       const colL = -vw * colSpread;
       const colR =  vw * colSpread;
-      const rowT = -vh * rowSpread;
+      const rowT = -vh * (rowSpread * 1.5);
       const rowB =  vh * rowSpread;
 
       const positions = {
