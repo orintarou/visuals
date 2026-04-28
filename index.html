@@ -704,6 +704,8 @@
     let positions = placeLabels();
     setTimeout(() => initLines(positions), 50);
 
+    let lastTouchKey = null;
+
     Object.keys(projects).forEach(key => {
       const label = document.getElementById('label-' + key);
       label.addEventListener('mouseenter', () => {
@@ -714,13 +716,21 @@
       });
       label.addEventListener('touchend', (e) => {
         e.preventDefault();
+        lastTouchKey = key;
         if (activeKey === key) {
           showView('view-' + key);
         } else {
           activate(key);
         }
       });
-      label.addEventListener('click', () => showView('view-' + key));
+      // Only allow click navigation on non-touch devices
+      label.addEventListener('click', (e) => {
+        if (lastTouchKey === key) {
+          lastTouchKey = null;
+          return; // was a touch — already handled above
+        }
+        showView('view-' + key);
+      });
     });
 
     document.getElementById('stage').addEventListener('touchend', (e) => {
