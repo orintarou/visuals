@@ -402,7 +402,7 @@
       .media-row { --media-h: 36vh; flex-direction: row; gap: 12px; }
       .media-single img { height: 68vh; }
       .project-label .pill { font-size: 9px; padding: 4px 10px; letter-spacing: 0.08em; }
-      .search-box { width: 130px; height: 30px; }
+      .search-box { width: 108px; height: 30px; }
       .search-box span { font-size: 9px; }
       .description-text { font-size: 9px; }
       .logo-bottom { width: 42px; }
@@ -626,6 +626,7 @@
     const searchHint  = document.getElementById('search-hint');
 
     function focusSearch() {
+      if (activeKey) activate(null);
       searchInput.focus();
     }
 
