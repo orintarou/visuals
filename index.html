@@ -704,30 +704,35 @@
     let positions = placeLabels();
     setTimeout(() => initLines(positions), 50);
 
-    let lastTouchKey = null;
+    // Detect once if the device is touch-capable and never use click there
+    let usingTouch = false;
+    window.addEventListener('touchstart', () => { usingTouch = true; }, { once: true, passive: true });
 
     Object.keys(projects).forEach(key => {
       const label = document.getElementById('label-' + key);
+
+      // Desktop hover
       label.addEventListener('mouseenter', () => {
-        if (!searchInput.value) activate(key);
+        if (!usingTouch && !searchInput.value) activate(key);
       });
       label.addEventListener('mouseleave', () => {
-        if (!searchInput.value) activate(null);
+        if (!usingTouch && !searchInput.value) activate(null);
       });
+
+      // Touch: first tap activates, second tap opens — click never used
       label.addEventListener('touchend', (e) => {
         e.preventDefault();
-        // Mark this as a touch so the ghost click that follows is ignored
-        lastTouchKey = key;
-        setTimeout(() => { lastTouchKey = null; }, 1500);
+        e.stopImmediatePropagation();
         if (activeKey === key) {
           showView('view-' + key);
         } else {
           activate(key);
         }
-      });
-      // Desktop click only — suppressed on touch via lastTouchKey
-      label.addEventListener('click', (e) => {
-        if (lastTouchKey === key) return;
+      }, { passive: false });
+
+      // Desktop click — only fires when usingTouch is false
+      label.addEventListener('click', () => {
+        if (usingTouch) return;
         showView('view-' + key);
       });
     });
