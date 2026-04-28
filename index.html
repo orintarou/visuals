@@ -383,6 +383,19 @@
       color: #fdfcfb;
     }
 
+    /* tap-to-open hint shown inside the active pill on touch devices */
+    @media (hover: none) {
+      .project-label.active .pill::after {
+        content: 'tap again to open';
+        display: block;
+        font-size: 7px;
+        letter-spacing: 0.1em;
+        text-align: center;
+        margin-top: 3px;
+        color: rgba(253,252,251,0.7);
+      }
+    }
+
     @media (max-width: 600px) {
       .project-page { padding: 0 16px; }
       .project-page-inner { gap: 20px; }
@@ -540,8 +553,8 @@
       const vh = window.innerHeight;
       const cx = vw / 2;
       const cy = vh / 2;
-      const colSpread = isMobile() ? 0.27 : 0.224;
-      const rowSpread = isMobile() ? 0.18 : 0.14;
+      const colSpread = isMobile() ? 0.36 : 0.224;
+      const rowSpread = isMobile() ? 0.22 : 0.14;
       const colL = -vw * colSpread;
       const colR =  vw * colSpread;
       const rowT = -vh * (rowSpread * 1.5);
@@ -556,8 +569,12 @@
 
       Object.entries(positions).forEach(([key, pos]) => {
         const el = document.getElementById('label-' + key);
-        el.style.left = pos.x + 'px';
-        el.style.top  = pos.y + 'px';
+        const pillW = el.offsetWidth || 80;
+        const pillH = el.offsetHeight || 28;
+        const clampedX = Math.max(pillW/2 + 8, Math.min(vw - pillW/2 - 8, pos.x));
+        const clampedY = Math.max(pillH/2 + 8, Math.min(vh - pillH/2 - 8, pos.y));
+        el.style.left = clampedX + 'px';
+        el.style.top  = clampedY + 'px';
       });
 
       return positions;
