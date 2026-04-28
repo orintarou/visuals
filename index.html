@@ -704,9 +704,8 @@
     let positions = placeLabels();
     setTimeout(() => initLines(positions), 50);
 
-    // Detect once if the device is touch-capable and never use click there
     let usingTouch = false;
-    window.addEventListener('touchstart', () => { usingTouch = true; }, { once: true, passive: true });
+    window.addEventListener('touchstart', () => { usingTouch = true; }, { passive: true });
 
     Object.keys(projects).forEach(key => {
       const label = document.getElementById('label-' + key);
@@ -719,7 +718,9 @@
         if (!usingTouch && !searchInput.value) activate(null);
       });
 
-      // Touch: first tap activates, second tap opens — click never used
+      // Touch: set flag immediately on touchstart, handle logic on touchend
+      label.addEventListener('touchstart', () => { usingTouch = true; }, { passive: true });
+
       label.addEventListener('touchend', (e) => {
         e.preventDefault();
         e.stopImmediatePropagation();
@@ -730,7 +731,7 @@
         }
       }, { passive: false });
 
-      // Desktop click — only fires when usingTouch is false
+      // Desktop click only — usingTouch is always true by now on any touch device
       label.addEventListener('click', () => {
         if (usingTouch) return;
         showView('view-' + key);
