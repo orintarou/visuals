@@ -420,10 +420,12 @@
         <line id="line-godela"       class="connector-line" />
         <line id="line-freemarkets"  class="connector-line" />
         <line id="line-liquidtalent" class="connector-line" />
+        <line id="line-askk"         class="connector-line" />
         <circle id="star-bridgehacs"   class="star" r="2" />
         <circle id="star-godela"       class="star" r="2" />
         <circle id="star-freemarkets"  class="star" r="2" />
         <circle id="star-liquidtalent" class="star" r="2" />
+        <circle id="star-askk"         class="star" r="2" />
       </svg>
 
       <div class="search-center" id="search-center">
@@ -446,6 +448,9 @@
       </div>
       <div class="project-label featured" id="label-freemarkets">
         <div class="pill">Freemarkets<span class="featured-dot"></span></div>
+      </div>
+      <div class="project-label featured" id="label-askk">
+        <div class="pill">askk<span class="featured-dot"></span></div>
       </div>
     </div>
     <div class="description-area">
@@ -524,6 +529,51 @@
     </div>
   </div>
 
+  <!-- ── ASKK ── -->
+  <div class="view hidden" id="view-askk" style="overflow-y:auto; display:flex; flex-direction:column; align-items:center; padding: 52px 32px 72px;">
+    <div class="project-page-inner">
+
+      <!-- Row 1: Figma wireframe (wide) + drawn concept (wide) -->
+      <div class="media-row" style="--media-h: 28vh;">
+        <div class="media-col">
+          <img src="askk_figma_wireframe.png" alt="askk Figma wireframe" />
+          <span class="media-caption">Figma wireframe</span>
+        </div>
+        <div class="media-col">
+          <img src="askk_figma_wireframe_drawn.png" alt="askk drawn Figma wireframe" />
+          <span class="media-caption">Drawn wireframe</span>
+        </div>
+      </div>
+
+      <!-- Row 2: two live mobile screenshots + roles sketch -->
+      <div class="media-row" style="--media-h: 32vh;">
+        <div class="media-col">
+          <img src="askk_live_mobile_search.PNG" alt="askk live — search view" />
+          <span class="media-caption">Live — search</span>
+        </div>
+        <div class="media-col">
+          <img src="askk_live_mobile_story.PNG" alt="askk live — story view" />
+          <span class="media-caption">Live — story</span>
+        </div>
+        <div class="media-col">
+          <img src="askk_wireframe_drawn_roles.png" alt="askk roles concept sketch" />
+          <span class="media-caption">Roles concept</span>
+        </div>
+      </div>
+
+      <!-- Row 3: screen recording, full width -->
+      <div class="media-full" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:8px;">
+        <video autoplay muted loop playsinline style="height:22vh; width:auto; max-width:100%; border:0.5px solid #e0deda; border-radius:3px; background:#111;">
+          <source src="askk_figma_demo.mp4" type="video/mp4" />
+        </video>
+        <span class="media-caption">Figma prototype — demo</span>
+      </div>
+
+      <div class="project-name-label">askk</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
   <script>
     const projects = {
       godela: {
@@ -537,6 +587,9 @@
       },
       freemarkets: {
         desc: "End-to-end product design for a fintech platform; presented work to pre-seed investors including 3KVC."
+      },
+      askk: {
+        desc: "Personal portfolio site — designed and built from a hand-drawn wireframe into a live interactive constellation of work."
       }
     };
 
@@ -563,6 +616,7 @@
       const positions = {
         godela:       { x: cx,        y: cy + rowT },
         bridgehacs:   { x: cx + colL, y: cy },
+        askk:         { x: cx + colR, y: cy },
         liquidtalent: { x: cx + colL, y: cy + rowB },
         freemarkets:  { x: cx + colR, y: cy + rowB }
       };
