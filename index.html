@@ -421,11 +421,19 @@
         <line id="line-freemarkets"  class="connector-line" />
         <line id="line-liquidtalent" class="connector-line" />
         <line id="line-askk"         class="connector-line" />
+        <line id="line-sounditure"   class="connector-line" />
+        <line id="line-ign"          class="connector-line" />
+        <line id="line-kuma"         class="connector-line" />
+        <line id="line-resume"       class="connector-line" />
         <circle id="star-bridgehacs"   class="star" r="2" />
         <circle id="star-godela"       class="star" r="2" />
         <circle id="star-freemarkets"  class="star" r="2" />
         <circle id="star-liquidtalent" class="star" r="2" />
         <circle id="star-askk"         class="star" r="2" />
+        <circle id="star-sounditure"   class="star" r="2" />
+        <circle id="star-ign"          class="star" r="2" />
+        <circle id="star-kuma"         class="star" r="2" />
+        <circle id="star-resume"       class="star" r="2" />
       </svg>
 
       <div class="search-center" id="search-center">
@@ -451,6 +459,18 @@
       </div>
       <div class="project-label featured" id="label-askk">
         <div class="pill">askk<span class="featured-dot"></span></div>
+      </div>
+      <div class="project-label featured" id="label-sounditure">
+        <div class="pill">Sounditure<span class="featured-dot"></span></div>
+      </div>
+      <div class="project-label" id="label-ign">
+        <div class="pill">IGN</div>
+      </div>
+      <div class="project-label" id="label-kuma">
+        <div class="pill">k_uma</div>
+      </div>
+      <div class="project-label" id="label-resume">
+        <div class="pill">Resume for Merge</div>
       </div>
     </div>
     <div class="description-area">
@@ -546,7 +566,7 @@
       </div>
 
       <!-- Row 2: live search → demo video (taller) → live story -->
-      <div class="media-row" style="--media-h: 36vh; align-items: center;">
+      <div class="media-row" style="--media-h: 28vh; align-items: center;">
         <div class="media-col">
           <img src="askk_live_mobile_search.PNG" alt="askk live — search view" style="height: 28vh;" />
           <span class="media-caption">Live — search</span>
@@ -568,6 +588,71 @@
     </div>
   </div>
 
+  <!-- ── SOUNDITURE ── -->
+  <div class="view hidden project-page" id="view-sounditure">
+    <div class="project-page-inner">
+      <div class="media-row" style="--media-h: 52vh; align-items: center;">
+        <div class="media-col">
+          <video autoplay muted loop playsinline>
+            <source src="sounditure_desktop.mp4" type="video/mp4" />
+          </video>
+          <span class="media-caption">Winning pitch — MIT Hacking Arts</span>
+        </div>
+        <div class="media-col">
+          <img src="sounditure_win_photo.jpg" alt="Sounditure Autodesk prize win" />
+          <span class="media-caption">Autodesk Challenge Winner — $2,500</span>
+        </div>
+      </div>
+      <div class="project-name-label">Sounditure</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ── IGN ── -->
+  <div class="view hidden project-page" id="view-ign">
+    <div class="project-page-inner">
+      <div class="media-full" style="width:100%; display:flex; flex-direction:column; align-items:center; gap:8px;">
+        <video autoplay muted loop playsinline style="height:62vh; width:auto; max-width:100%; border:0.5px solid #e0deda; border-radius:3px; background:#111;">
+          <source src="ign_video.mov" type="video/mp4" />
+        </video>
+        <span class="media-caption">IGN Anime Club Podcast — 8K views</span>
+      </div>
+      <div class="project-name-label">IGN</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ── K_UMA ── -->
+  <div class="view hidden project-page" id="view-kuma">
+    <div class="project-page-inner">
+      <div class="media-row" style="--media-h: 48vh; align-items: center;">
+        <div class="media-col">
+          <img src="music_photos.jpeg" alt="k_uma music" />
+          <span class="media-caption">k_uma</span>
+        </div>
+        <div class="media-col" style="display:flex; flex-direction:column; gap:12px; align-items:center;">
+          <img src="music_headline.png" alt="10K views" style="height:auto; width:100%; max-width:260px; border:0.5px solid #e0deda; border-radius:3px;" />
+          <img src="music_metrics.jpeg" alt="k_uma channel metrics" style="height:36vh; width:auto; max-width:260px; border:0.5px solid #e0deda; border-radius:3px;" />
+          <span class="media-caption">YouTube Studio — 10.1K views / 28 days</span>
+        </div>
+      </div>
+      <div class="project-name-label">k_uma</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
+  <!-- ── RESUME ── -->
+  <div class="view hidden project-page" id="view-resume">
+    <div class="project-page-inner">
+      <div class="media-single">
+        <img src="resume_merge.png" alt="Résumé — Merge" />
+        <span class="media-caption">Résumé — Merge</span>
+      </div>
+      <div class="project-name-label">Resume for Merge</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
   <script>
     const projects = {
       godela: {
@@ -584,6 +669,18 @@
       },
       askk: {
         desc: "Personal portfolio site — designed and built from a hand-drawn wireframe into a live interactive constellation of work."
+      },
+      sounditure: {
+        desc: "Winner of MIT Hacking Arts hackathon — pitched a platform using Spotify sound metrics to generate 3D furniture designs representing your favorite songs."
+      },
+      ign: {
+        desc: "Uninvited intern who asked to feature on IGN's anime club podcast — the episode reached 8K views on YouTube."
+      },
+      kuma: {
+        desc: "Self-directed and produced music videos as k_uma — 10K+ views on YouTube in 28 days."
+      },
+      resume: {
+        desc: "Résumé tailored for Merge — strong development background with experience as a Developer Advocate and content creator."
       }
     };
 
@@ -608,11 +705,15 @@
       const rowB =  vh * rowSpread;
 
       const positions = {
-        godela:       { x: cx,        y: cy + rowT },
+        resume:       { x: cx,        y: cy + rowT * 1.8 },
+        godela:       { x: cx + colL, y: cy + rowT },
+        ign:          { x: cx + colR, y: cy + rowT },
         bridgehacs:   { x: cx + colL, y: cy },
         askk:         { x: cx + colR, y: cy },
+        sounditure:   { x: cx,        y: cy },
         liquidtalent: { x: cx + colL, y: cy + rowB },
-        freemarkets:  { x: cx + colR, y: cy + rowB }
+        freemarkets:  { x: cx + colR, y: cy + rowB },
+        kuma:         { x: cx,        y: cy + rowB }
       };
 
       Object.entries(positions).forEach(([key, pos]) => {
