@@ -422,12 +422,14 @@
         <line id="line-askk"         class="connector-line" />
         <line id="line-sounditure"   class="connector-line" />
         <line id="line-kuma"         class="connector-line" />
+        <line id="line-fundllc"      class="connector-line" />
         <circle id="star-bridgehacs"   class="star" r="2" />
         <circle id="star-godela"       class="star" r="2" />
         <circle id="star-liquidtalent" class="star" r="2" />
         <circle id="star-askk"         class="star" r="2" />
         <circle id="star-sounditure"   class="star" r="2" />
         <circle id="star-kuma"         class="star" r="2" />
+        <circle id="star-fundllc"      class="star" r="2" />
       </svg>
 
       <div class="search-center" id="search-center">
@@ -456,6 +458,9 @@
       </div>
       <div class="project-label" id="label-kuma">
         <div class="pill">k_uma</div>
+      </div>
+      <div class="project-label featured" id="label-fundllc">
+        <div class="pill">Fund LLC<span class="featured-dot"></span></div>
       </div>
     </div>
     <div class="description-area">
@@ -586,6 +591,18 @@
     </div>
   </div>
 
+  <!-- ── FUND LLC ── -->
+  <div class="view hidden project-page" id="view-fundllc">
+    <div class="project-page-inner">
+      <div class="media-single">
+        <img src="fundllc_screenshot.png" alt="Fund LLC platform" />
+        <span class="media-caption">Pooled Capital Platform — Agentic AI Hackathon</span>
+      </div>
+      <div class="project-name-label">Fund LLC</div>
+      <button class="back-btn" onclick="showView('view-landing')">Back to Home</button>
+    </div>
+  </div>
+
   <script>
     const projects = {
       godela: {
@@ -605,6 +622,9 @@
       },
       kuma: {
         desc: "Self-directed and produced music videos as k_uma — 10K+ views on YouTube in 28 days."
+      },
+      fundllc: {
+        desc: "Built at an agentic AI hackathon — a pooled capital platform letting top-tier investors open their strategies to everyday investors, with AI agents for matching and profile generation. Intended for B2B with Robinhood."
       }
     };
 
@@ -629,12 +649,13 @@
       const rowB =  vh * rowSpread;
 
       const positions = {
-        sounditure:   { x: cx + colL * 0.3, y: cy + rowT },
+        askk:         { x: cx + colL * 0.3, y: cy + rowT },
         godela:       { x: cx + colR * 0.3, y: cy + rowT },
         bridgehacs:   { x: cx + colL, y: cy },
-        askk:         { x: cx + colR, y: cy },
+        sounditure:   { x: cx + colR, y: cy },
         liquidtalent: { x: cx + colL, y: cy + rowB },
-        kuma:         { x: cx + colR, y: cy + rowB }
+        kuma:         { x: cx + colR, y: cy + rowB },
+        fundllc:      { x: cx, y: cy + rowB * 1.6 }
       };
 
       Object.entries(positions).forEach(([key, pos]) => {
